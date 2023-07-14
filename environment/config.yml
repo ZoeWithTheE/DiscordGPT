@@ -1,0 +1,39 @@
+### General config ###
+
+triggering:
+  triggers: ["Hey DiscordGPT", "DiscordGPT"]
+  ignore_case: true # Ignore capital letters
+  ignore_modifiers: true # Discord text modifiers like *, **, __, # , and ~~
+
+message_formats:
+  # Variables include: user, time, date. You may add more from within the source code.
+  thread_title: "DiscordGPT thread with {user}"
+
+personalities:
+  DEFAULT: "assistant" # Define the default personality variable
+  evil: "YOUR SYSTEM PROMPT FOR GPT"
+  mean: "YOUR SYSTEM PROMPT FOR GPT"
+  funny: "YOUR SYSTEM PROMPT FOR GPT"
+  flirty: "YOUR SYSTEM PROMPT FOR GPT"
+  assistant: "YOUR SYSTEM PROMPT FOR GPT"
+
+### Completion settings ###
+
+completion_replacements: # ["before", "after"]
+  - ["@everyone", "@​everyone"] # Invisible zero-width character between @ and everyone
+  - ["@here", "@​here"] # Invisible zero-width character between @ and here
+  
+gpt_model: "gpt-4"
+max_tokens: 4096
+
+forced_chat_method:
+  enabled: false
+  value: "REPLY"
+
+### Dev config ###
+
+file_paths: # Relative to main.py
+  transcript: "..\\user_data\\transcript.json"
+  user_data: "..\\user_data\\users.json"
+  dotenv: "..\\environment\\.env"
+  config_file: "..\\environment\\config.yml"
