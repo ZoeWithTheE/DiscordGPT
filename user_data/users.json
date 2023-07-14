@@ -1,0 +1,9 @@
+{
+    "users": [
+        {
+            "id": 0,
+            "interaction_method": "REPLY",
+            "personality": "DEFAULT"
+        }
+    ]
+}
