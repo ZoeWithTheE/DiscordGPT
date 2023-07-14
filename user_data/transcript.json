@@ -1,0 +1,18 @@
+[
+    {
+        "author_id": 0,
+        "transcript_id": 0,
+        "date": null,
+        "time": null,
+        "tokens": 0,
+        "conversation": {
+            "message_count": 0,
+            "messages": [
+                {
+                    "content": "",
+                    "role": ""
+                }
+            ]
+        }
+    }
+]
