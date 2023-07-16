@@ -161,6 +161,25 @@ async def execute_encoded_message(message, member: discord.Member, convo):
     split_executor = full_executor.split(">")
     command = split_executor[0].lower()
     parameters = split_executor[1:]
+
+    
+    # Commands that GPT can send to either get information about a user/the server, or perform actions
+    # Example system prompt to teach GPT how to use:
+
+    ## You can use commands. These commands will be removed from your message before it is sent.
+    ## Commands you can use are: BAN (ban a user), MUTE (mute a user), MEMBERCOUNT (get the server membercount), ROLES (get the roles of a user).
+    ## For BAN: parameter 1 = Discord member ID, parameter 2 = ban reason.
+    ## For MUTE: parameter 1 = Discord member ID, parameter 2 = mute reason, parameter 3 = mute duration (seconds).
+    ## For MEMBERCOUNT: no parameters.
+    ## For ROLES: parameter 1 = Discord member ID.
+    ## Command format: START:{COMMAND}>{PARAMETER n}
+    ## Example ban command: START:ban>968356025461768192>put your reason here:END
+    ## Example mute command (1 minute): START:mute>968356025461768192>put your reason here>60:END
+    ## Example membercount command: START:membercount:END
+
+    # Use with great care, and always implement a permissions check if you don't want any user to be able to request any action
+
+    """
     if command.lower() == 'ban':
         if member.guild_permissions.ban_members:
             try:
@@ -172,26 +191,8 @@ async def execute_encoded_message(message, member: discord.Member, convo):
                     convo.append({"content": "operation complete", "role": "system"})
             except Exception as e: convo.append({"content": f"operation got an error: {e}. Relay this error to the user.", "role": "system"})
         else: convo.append({"content": "The member who asked you to ban that user lacks the permission to request such an action", "role": "system"})
-    if command.lower() == 'mute' or command.lower() == 'timeout':
-        if member.guild_permissions.moderate_members:
-            try:
-                user_id_to_mute = int(parameters[0])
-                timeout_duration = parameters[1]
-                user_to_mute = await client.fetch_user(user_id_to_mute)
-                if user_to_mute:
-                    until = datetime.utcnow() + timedelta(minutes=timeout_duration)
-                    await user_to_mute.timeout(until=until)
-                    convo.append({"content": "operation complete", "role": "system"})
-            except Exception as e: convo.append({"content": f"operation got an error: {e}. Relay this error to the user.", "role": "system"})
-        else: convo.append({"content": "The member who asked you to ban that user lacks the permission to request such an action", "role": "system"})
-    if command.lower() == 'whitelist':
-        try:
-            tag = int(parameters[0])
-            commands = [f'whitelist add {tag}', f'whitelist add .{tag.replace(" ", "_")}']
-            console=client.get_channel(950858523846271007)
-            for command in commands: await console.send(command)
-            convo.append({"content": "operation complete", "role": "system"})
-        except Exception as e: convo.append({"content": f"operation got an error: {e}. Relay this error to the user.", "role": "system"})
+    """
+    
     return message.replace('START:' + full_executor + ':END', ''), convo
 
 def save_to_transcript(first_message: discord.Message, convo):
