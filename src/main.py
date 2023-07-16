@@ -136,6 +136,13 @@ async def set_personality(ctx: discord.ApplicationContext, personality):
     await UserData(ctx.author).set_user_value('personality', personality)
     await ctx.response.send_message(f'Set personality to \"{personality}\".', ephemeral=True)
 
+@client.slash_command(name='reload-config', description='Reload the config.yml file')
+async def reload_config(ctx: discord.ApplicationContext):
+    global config
+    if not ctx.author.guild_permissions.administrator: return await ctx.response.send_message('You don\'t have permission to use that!', ephemeral=True)
+    def config(key: str): return yaml.safe_load(open(os.path.join(os.path.dirname(__file__), "..", "environment", "config.yml"))).get(key)
+    await ctx.response.send_message('Config file reloaded.', ephemeral=True)
+
 def remove_formatting(message):
     formatting_symbols = ['*', '_', '~', '#', '`']
     for symbol in formatting_symbols: message = message.replace(symbol, '')
